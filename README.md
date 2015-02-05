@@ -1,6 +1,6 @@
 # Ember-aupac-cascading-select
 
-Automatic Cascading/Dependent Select for Ember Data Models.
+Cascading/Dependent Select for Ember Data Models.
 
 ## Installation
 
