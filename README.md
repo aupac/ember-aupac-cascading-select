@@ -40,7 +40,7 @@ npm install --save-dev ember-aupac-cascading-select
 ####Each item can contain the following options:
 ```
     modelClass : null, //Ember Data model name
-    label : '???', //Default label to display above the control
+    label : null, //Defaults label to display above the control, default to the title case of modelClass
     optionValuePath :'content.id', //The ID property on the model
     optionLabelPath : 'content.name', //The property on the model that is considered the ID
     prompt : 'Please Select', //The default text to display when no option is selected
