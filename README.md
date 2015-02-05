@@ -72,7 +72,7 @@ Example:
  5. A request is made to populate the employees `subManager.get('employees')`
  6. etc.
 
-The component will automatically make these requests for you, just need to make sure you have server mappings for them.
+The component will automatically make these requests for you.
 
 ###Styling
 [Twitter Bootstrap](http://getbootstrap.com/) is used for styling.
