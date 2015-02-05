@@ -60,12 +60,12 @@ store : (required) A reference to a DS.Store to use.
 ###JSON Requests
 Requests for dependent data is made according to ember-data conventions.
 
-1. A request is made for all managers on load `GET /managers`
-2. Select the manager with an id of 1
-3. A request is made to populate the submanagers `GET /managers/1/subManagers`
-4. Select a sub-manager with an id of 2
-5. A request is made to populate the employees `GET /subManagers/2/employees`
-6. etc.
+ 1. A request is made for all managers on load `GET /managers`
+ 2. Select the manager with an id of 1
+ 3. A request is made to populate the submanagers `GET /managers/1/subManagers`
+ 4. Select a sub-manager with an id of 2
+ 5. A request is made to populate the employees `GET /subManagers/2/employees`
+ 6. etc.
 
 The component will automatically make these requests for you, just need to make sure you have server mappings for them.
 
