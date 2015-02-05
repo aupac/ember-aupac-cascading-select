@@ -1,6 +1,6 @@
 # Ember-aupac-cascading-select
 
-Cascading/Dependent Select for Ember Data Models.
+Automatic Cascading/Dependent Select for Ember Data Models.
 
 ## Installation
 
@@ -47,19 +47,28 @@ npm install --save-dev ember-aupac-cascading-select
     width: 'col-sm-3' //Size of the control on the screen
 ```
 
-####When the final option is selected, the `optionValuePath` will be sent as an action
-```javascript
-    actions : {
-        onComplete : function(modelId) {
-            alert('You selected ID: ' + modelId);
-        }
-    }
-```
+###Add the component to your template
 
-###Add the component to your template, you need to supply the ember-data store to the component
+selection  : (required) The binding for the final select element
+items : (required) An array of items (see above)
+store : (required) A reference to a DS.Store to use.
+
 ```html
-{{cascading-select items=items action='onComplete' store=controller.store }}
+{{cascading-select items=items selection=subTask store=controller.store }}
 ``` 
+
+###JSON Requests
+Requests for dependent data is made according to ember-data conventions.
+
+1. A request is made for all managers on load `GET /managers`
+2. Select the manager with an id of 1
+3. A request is made to populate the submanagers `GET /managers/1/subManagers`
+4. Select a sub-manager with an id of 2
+5. A request is made to populate the employees `GET /subManagers/2/employees`
+6. etc.
+
+The component will automatically make these requests for you, just need to make sure you have server mappings for them.
+
 ###Styling
 [Twitter Bootstrap](http://getbootstrap.com/) is used for styling.
 
