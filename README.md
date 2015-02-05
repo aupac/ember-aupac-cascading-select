@@ -49,9 +49,11 @@ npm install --save-dev ember-aupac-cascading-select
 
 ###Add the component to your template
 
+```
 selection  : (required) The binding for the final select element
 items : (required) An array of items (see above)
 store : (required) A reference to a DS.Store to use.
+```
 
 ```html
 {{aupac-cascading-select items=items selection=subTask store=controller.store }}
