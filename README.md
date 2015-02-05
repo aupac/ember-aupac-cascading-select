@@ -57,14 +57,17 @@ store : (required) A reference to a DS.Store to use.
 {{aupac-cascading-select items=items selection=subTask store=controller.store }}
 ``` 
 
-###JSON Requests
-Requests for dependent data is made according to ember-data conventions.
+###How are requests made?
 
- 1. A request is made for all managers on load `GET /managers`
- 2. Select the manager with an id of 1
- 3. A request is made to populate the submanagers `GET /managers/1/subManagers`
- 4. Select a sub-manager with an id of 2
- 5. A request is made to populate the employees `GET /subManagers/2/employees`
+Requests are made for additional data according to the ember-data Adapter you are using:
+
+Example:
+
+ 1. A request is made for all managers on load `this.store.find('manager')`
+ 2. Select a manager
+ 3. A request is made to populate the sub-managers `manager.get('subManagers')`
+ 4. Select a sub-manager
+ 5. A request is made to populate the employees `subManager.get('employees')`
  6. etc.
 
 The component will automatically make these requests for you, just need to make sure you have server mappings for them.
