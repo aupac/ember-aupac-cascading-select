@@ -1,10 +1,11 @@
 import Ember from 'ember';
+import DS from 'ember-data';
 
 var DefaultItem = Ember.Object.extend({
     modelClass : null,
-    label : '???',
+    label : null,
     optionValuePath :'content.id',
-    optionLabelPath : 'content.name',
+    optionLabelPath : 'content.displayName',
     prompt : 'Please Select',
     content : [],
     width: 'col-sm-3'
@@ -13,28 +14,16 @@ var DefaultItem = Ember.Object.extend({
 var AbstractControl = Ember.Object.extend({
 
     content: function() {
-        return this.get('store').find(this.get('modelClass'), this.getParms());
-    }.property('parent.selection').readOnly(),
 
-    getParms : function() {
-        var parentControls = [];
+        var parentSelection = this.get('parent.selection');
+        var modelClass = this.get('modelClass').dasherize();
 
-        var parent = this.get('parent');
-        if(!Ember.none(parent)) {
-            parentControls.pushObject(parent);
-            while(!parent.get('isFirstControl')) {
-                parent = parent.get('parent');
-                parentControls.pushObject(parent);
-            }
+        if(Ember.none(parentSelection)) {
+            return this.get('store').find(modelClass); //This must be the top level item
+        } else {
+            return parentSelection.get(modelClass.camelize().pluralize());
         }
-
-        var parms = {};
-        parentControls.forEach(function(item, idx, enumerable) {
-            parms[item.get('camelizedModelClass')] = item.get('selection');
-        });
-
-        return parms;
-    },
+    }.property('parent.selection').readOnly(),
 
     selectionInvalid: Ember.computed.none('selection'),
     selectionValid: Ember.computed.not('selectionInvalid'),
@@ -45,7 +34,7 @@ var AbstractControl = Ember.Object.extend({
     isFirstControl : Ember.computed.equal('index', 0),
     isLastControl : function() {
         return this.get('index') === (this.get('controls.length') - 1);
-    }.property('index'),  //Ember.computed.equal('index', 'controls.length'),
+    }.property('index'),
     enabled : Ember.computed.or('isFirstControl', 'parentValid'),
     disabled: Ember.computed.not('enabled'),
 
@@ -53,7 +42,14 @@ var AbstractControl = Ember.Object.extend({
         if(!this.get('isFirstControl')) {
             this.set('selection', null);
         }
-    }.observes('parent.selection')
+    }.observes('parent.selection'),
+
+    selectionChanged : function() {
+        var selection = this.get('selection');
+        if(this.get('isLastControl')) {
+            this.set('finalSelection', selection);
+        }
+    }.observes('selection')
 });
 
 export default Ember.Component.extend({
@@ -62,7 +58,7 @@ export default Ember.Component.extend({
     //public API
     items : null,
     store : null,
-    onComplete : null,
+    selection : null,
 
     //private variables and functions
     controls : null,
@@ -78,6 +74,7 @@ export default Ember.Component.extend({
         var self = this;
         var items = this.get('items');
         var controls = [];
+        var selection = this.get('selection');
         
         if(Ember.none(items)) {
         	throw Error('You need to specify an `items` object in your controller');
@@ -90,6 +87,12 @@ export default Ember.Component.extend({
         items.forEach(function(item, idx, enumerable) {
             var mergedItem = DefaultItem.create(item);
             var content = mergedItem.get('content');
+
+            //fix label
+            if(Ember.none(mergedItem.get('label'))) {
+                var modelClass = self.get('modelClass');
+                mergedItem.set('label', modelClass.camelize())
+            }
 
             if (Ember.none(content)) {
                 //Content array hard coded
@@ -109,7 +112,9 @@ export default Ember.Component.extend({
                 }
                 var camelizedModelClass = modelClass.camelize();
 
+
                 var SelectControl = AbstractControl.extend({
+                    component : self,
                     index : idx,
                     modelClass : modelClass,
                     camelizedModelClass : camelizedModelClass,
@@ -120,11 +125,12 @@ export default Ember.Component.extend({
                     optionLabelPath: mergedItem.get('optionLabelPath'),
                     parent : function() {
                         var index = this.get('index');
-                        return index === 0 ? controls[index] : controls[index - 1];
+                        return index === 0 ? null : controls[index - 1];
                     }.property('index').readOnly(),
                     controls : controls, //TODO breaks hollywood principal (try to get rid of this)
                     selection: model.get('camelizedModelClass'),
-                    store : store
+                    store : store,
+                    finalSelectionBinding : 'component.selection'
                 });
 
                 controls.pushObject(SelectControl.create());
@@ -133,15 +139,6 @@ export default Ember.Component.extend({
 
         this.set('controls', controls);
 
-    }.observes('items').on('init'),
-
-    postSuccessAction : function() {
-        //TODO This sucks, think of a better way!
-        this.get('controls').forEach(function(item, idx, enumerable) {
-            if(item.get('isLastControl') && item.get('selectionValid')) {
-                this.sendAction('action', item.get('selection'));
-            }
-        }, this);
-    }.observes('controls.@each.selection')
+    }.observes('items').on('init')
 
 });
