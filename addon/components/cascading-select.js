@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import DS from 'ember-data';
 
 var DefaultItem = Ember.Object.extend({
     modelClass : null,
@@ -65,7 +64,7 @@ export default Ember.Component.extend({
     model : null,
 
     actions : {
-        getModels: function(modelClass, controlIndex) {
+        getModels: function(modelClass) {
             return this.get('store').find(modelClass);
         }
     },
@@ -74,7 +73,7 @@ export default Ember.Component.extend({
         var self = this;
         var items = this.get('items');
         var controls = [];
-        var selection = this.get('selection');
+        //var selection = this.get('selection');
         
         if(Ember.none(items)) {
         	throw Error('You need to specify an `items` object in your controller');
@@ -84,14 +83,14 @@ export default Ember.Component.extend({
         var model = this.get('model');
 
         //Generate the controls
-        items.forEach(function(item, idx, enumerable) {
+        items.forEach(function(item, idx) {
             var mergedItem = DefaultItem.create(item);
             var content = mergedItem.get('content');
 
             //fix label
             if(Ember.none(mergedItem.get('label'))) {
-                var modelClass = self.get('modelClass');
-                mergedItem.set('label', modelClass.camelize())
+                var currentModelClass = self.get('modelClass');
+                mergedItem.set('label', currentModelClass.camelize());
             }
 
             if (Ember.none(content)) {
