@@ -5,7 +5,7 @@
         <div {{bind-attr class=":form-group control.width"}}>
             <label for="exampleInputPassword1">{{control.label}}</label>
             {{view "select"
-            content=control.content
+            content=control.selectOptions
             selection=control.selection
             optionValuePath=control.optionValuePath
             optionLabelPath=control.optionLabelPath
