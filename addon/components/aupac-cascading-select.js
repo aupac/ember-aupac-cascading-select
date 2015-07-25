@@ -10,7 +10,7 @@ const DefaultItem = Ember.Object.extend({
     optionLabelPath : 'content.displayName',
     prompt : 'Please Select',
     content : Ember.A([]),
-    width: 'col-sm-3' //Deprecated, TODO decouple this plugin from bootstrap
+    extras : {}
 });
 
 const AbstractControl = Ember.Object.extend({
@@ -23,7 +23,10 @@ const AbstractControl = Ember.Object.extend({
         if(isNone(parentSelection)) {
             return this.get('store').find(modelClass); //This must be the top level item
         } else {
-            return parentSelection.get(Ember.String.pluralize(Ember.String.camelize(modelClass)));
+          //TODO user should be able to override this default as the assumptions here may not be correct
+          let camelizedName = Ember.String.camelize(modelClass);
+          let pluralizedName = Ember.String.pluralize(camelizedName);
+          return parentSelection.get(pluralizedName);
         }
     }),
 
@@ -49,7 +52,7 @@ const AbstractControl = Ember.Object.extend({
     selectionChanged : observer('selection', function() {
         let selection = this.get('selection');
         if(this.get('isLastControl')) {
-            this.set('finalSelection', selection);
+            this.get('component').sendAction('action', selection);
         }
     })
 });
@@ -60,7 +63,6 @@ export default Ember.Component.extend({
   //public API
   items : null,
   store : null,
-  selection : null,
 
   //private variables and functions
   controls : null,
@@ -103,17 +105,16 @@ export default Ember.Component.extend({
           //Content array via model
           let modelClass = mergedItem.get('modelClass');
           if(isNone(modelClass)) {
-              throw Error('No `modelClass` attribute was defined!');
+              throw Error(`No "modelClass" attribute was defined at array index ${idx}!`);
           }
           let camelizedModelClass = Ember.String.camelize(modelClass);
-
 
           let SelectControl = AbstractControl.extend({
               component : this,
               index : idx,
               modelClass : modelClass,
               camelizedModelClass : camelizedModelClass,
-              width: mergedItem.get('width'),
+              extras: mergedItem.get('extras'),
               label: mergedItem.get('label'),
               prompt: mergedItem.get('prompt'),
               optionValuePath: mergedItem.get('optionValuePath'),
@@ -124,8 +125,7 @@ export default Ember.Component.extend({
               }),
               controls : controls, //TODO breaks Hollywood principal (try to get rid of this)
               selection: model.get('camelizedModelClass'),
-              store : store,
-              finalSelectionBinding : 'component.selection'
+              store : store
           });
 
           controls.pushObject(SelectControl.create());

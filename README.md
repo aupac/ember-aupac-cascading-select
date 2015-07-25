@@ -5,7 +5,7 @@ Cascading/Dependent Select for Ember Data Models.
 ## Installation
 
 ```
-npm install --save-dev ember-aupac-cascading-select
+ember install ember-aupac-cascading-select
 ```
 
 ##Usage
@@ -39,25 +39,70 @@ npm install --save-dev ember-aupac-cascading-select
 
 ####Each item can contain the following options:
 ```
-    modelClass : null, //Ember Data model name
-    label : null, //Defaults label to display above the control, default to the title case of modelClass
-    optionValuePath :'content.id', //The ID property on the model
-    optionLabelPath : 'content.name', //The property on the model that is considered the ID
-    prompt : 'Please Select', //The default text to display when no option is selected
-    width: 'col-sm-3' //Size of the control on the screen
+    modelClass (required) Ember Data model name in dasherized case
+    optionValuePath (default: 'content.id') The ID property on the model
+    optionLabelPath (default: 'content.displayName') The property on the model that you want to display to the user
+    prompt (default 'Please Select') The default selection label
+    label (default - camelized version of the model name) The control label
+    extras (default - empty object) An object containing any other information you would like to yield to the component
 ```
+
+All properties above will be available from the |control|
+
+ie. {{control.extras.width}} would allow you to access a custom width property.
 
 ###Add the component to your template
 
 ```
-selection  : (required) gets populated with the final selection.
+action  : (required) An action that gets executed when the final selection is made.  The value of the selected item is passed as a parameter.
 items : (required) array of item configurations (see above)
 store : (required) a reference to a DS.Store to use.
 ```
 
 ```html
-{{aupac-cascading-select items=items selection=subTask store=controller.store }}
+<!-- Notice the |control| at the end, each item in your 'items' array will be passed to this variable -->
+{{#aupac-cascading-select items=myItems store=store action=(action (mut selectedItem)) as |control|}}
+  <!-- In the component block you can create a select element based on your control, here I am using the soon to be removed Ember.Select in Ember2.0.-->
+  <!-- If you like, you can use emberx-select or something else -->
+  <div>
+      <label>{{control.label}}</label>
+      {{view "select"
+      content=control.content
+      selection=control.selection
+      optionValuePath=control.optionValuePath
+      optionLabelPath=control.optionLabelPath
+      prompt=control.prompt
+      disabled=control.disabled
+  </div>
+  }}
+{{/aupac-cascading-select}}
 ``` 
+
+###How are my models configured
+
+Your ember-data models need to have the correct relationships defined.
+
+For example, if you have an employee that has many tasks and you want to first select an employee and then select the task, it might look as follows.
+
+```javascript
+//employee
+export default DS.Model.extend({
+    name : DS.attr('string'),
+    tasks : DS.hasMany('task', {async : true}),
+    displayName : Ember.computed('name', function() {
+      return this.get('name');
+    })
+});
+
+//task
+export default DS.Model.extend({
+  name : DS.attr('string'),
+  employee : DS.belongsTo('employee')
+  displayName : Ember.computed('name', function() {
+    return this.get('name');
+  })
+});
+```
 
 ###How are requests made?
 
@@ -75,7 +120,7 @@ Example:
 The component will automatically make these requests for you.
 
 ###Styling
-[Twitter Bootstrap](http://getbootstrap.com/) is used for styling.
+[Twitter Bootstrap](http://getbootstrap.com/) is used for styling by default, however, you can yield the compoent and style as you wish.
 
 
 ## Demo

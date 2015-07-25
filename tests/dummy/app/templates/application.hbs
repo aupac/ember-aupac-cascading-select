@@ -1,9 +1,83 @@
-<h3>Bootstrap Cascading Select</h3>
+<div class="panel panel-default">
+    <div class="panel-heading">Bootstrap Styling</div>
+    <div class="panel-body">
+      {{#aupac-cascading-select items=bootstrapStyledItems store=store action=(action (mut bootstrapStyledResult)) as |control|}}
+          <div class="form-group {{control.extras.width}}">
+              <label>{{control.label}}</label>
+            {{view "select"
+            content=control.content
+            selection=control.selection
+            optionValuePath=control.optionValuePath
+            optionLabelPath=control.optionLabelPath
+            class = "form-control"
+            prompt=control.prompt
+            disabled=control.disabled
+            }}
+          </div>
+      {{/aupac-cascading-select}}
 
-{{aupac-cascading-select items=items action='onComplete' selection=subTask store=controller.store }}
-
-<div class="row">
-You selected : {{subTask.name}}
+        <div class="row">
+            <div class="col-xs-12">
+                You selected : {{bootstrapStyledResult.name}}
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">No Styling / Custom Styling</div>
+    <div class="panel-body">
+      {{#aupac-cascading-select items=noStyledItems store=store action=(action (mut noStyledResult)) as |control|}}
+        <div>
+            <label>{{control.label}}</label><br>
+          {{view "select"
+          content=control.content
+          selection=control.selection
+          optionValuePath=control.optionValuePath
+          optionLabelPath=control.optionLabelPath
+          prompt=control.prompt
+          disabled=control.disabled
+          }}
+        </div>
+      {{/aupac-cascading-select}}
+
+        <div class="row">
+            <div class="col-xs-12">
+                You selected : {{noStyledResult.name}}
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- Wait until prototype extension are working.
+<div class="panel panel-default">
+    <div class="panel-heading">Using ember-x-select (for ember 2.0 when Ember.Select is removed)</div>
+    <div class="panel-body">
+      {{#aupac-cascading-select items=xSelectItems store=store action=(action (mut xSelectResult)) as |control|}}
+          <div>
+              <label>{{control.label}}</label><br>
+            {{x-select
+            multiple=false
+            content=control.content
+            selection=control.selection
+            optionValuePath=control.optionValuePath
+            optionLabelPath=control.optionLabelPath
+            prompt=control.prompt
+            disabled=control.disabled
+            }}
+          </div>
+      {{/aupac-cascading-select}}
+
+        <div class="row">
+            <div class="col-xs-12">
+                You selected : {{xSelectResult.name}}
+            </div>
+        </div>
+    </div>
+</div>
+--}}
+
+
+
 
 
