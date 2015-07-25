@@ -23,10 +23,6 @@ export default Ember.Controller.extend({
         modelClass : 'sub-task'
     }],
 
-    actions : {
-        onComplete : function(modelId) {
-            alert('You selected ID: ' + modelId);
-        }
-    }
+    subTask : null
 
 });

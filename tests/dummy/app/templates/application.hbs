@@ -1,5 +1,9 @@
 <h3>Bootstrap Cascading Select</h3>
 
-{{cascading-select items=items action='onComplete' store=controller.store }}
+{{aupac-cascading-select items=items action='onComplete' selection=subTask store=controller.store }}
+
+<div class="row">
+You selected : {{subTask.name}}
+</div>
 
 
