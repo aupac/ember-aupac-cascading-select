@@ -1,0 +1,1 @@
+export { default } from 'ember-aupac-cascading-select/components/aupac-cascading-select';
