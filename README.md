@@ -1,4 +1,4 @@
-# Ember-aupac-cascading-select
+# ember-aupac-cascading-select
 
 Cascading/Dependent Select for Ember.
 
