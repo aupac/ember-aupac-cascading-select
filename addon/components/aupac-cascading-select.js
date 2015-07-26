@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/aupac-cascading-select';
 
-const {computed, observer, isNone} = Ember;
+const {computed, observer} = Ember;
 
 const DefaultItem = Ember.Object.extend({
     optionValuePath :'content.id',
