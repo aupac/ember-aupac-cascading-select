@@ -110,7 +110,7 @@ Or using [emberx-select](https://github.com/thefrontside/emberx-select)
 * Note that the optionValuePath needs to be overridden to 'content' instead of 'content.id' for each array item.
 
 ```html
-      {{#aupac-cascading-select items=selectXitems store=store action=(action (mut finalSelectXSelection)) as |control|}}
+      {{#aupac-cascading-select items=items store=store action=(action (mut selectedItem)) as |control|}}
           <div class="form-group {{control.extras.width}}">
               <label>{{control.extras.label}}</label>
             {{x-select action=(action (mut control.selection))
