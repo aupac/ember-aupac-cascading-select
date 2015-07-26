@@ -74,7 +74,7 @@ ie. `{{control.extras.width}}` would allow you to access a custom width property
 ```html
 <!-- Notice the |control| at the end, each item in your 'items' array will be passed to this variable -->
 <!-- Notice the 'action' shorthand '(action (mut selectedItem))', this basically sets up an action to set the selectedItem property without actually needing the action on the controller -->
-{{#aupac-cascading-select items=myItems store=store action=(action (mut selectedItem)) as |control|}}
+{{#aupac-cascading-select items=items store=store action=(action (mut selectedItem)) as |control|}}
   <!-- In the component block you can create a select element based on your control, here I am using the soon to be removed Ember.Select in Ember2.0.-->
   <!-- If you like, you can use emberx-select or something else -->
   <div class="form-group {{control.extras.width}}">
