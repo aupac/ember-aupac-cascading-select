@@ -7,7 +7,6 @@ module.exports = function(environment) {
     baseURL: '/ember-aupac-cascading-select/',
     locationType: 'auto',
     EmberENV: {
-      EXTEND_PROTOTYPES: true,
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
