@@ -44,7 +44,11 @@ ember install ember-aupac-cascading-select
     //You override the default "Please Select" with whatever you like.
     prompt : 'Select an Employee',
     content : function(parent, store) {
-      return parent.get('employees');
+      //You can fine tune you requests how you like 
+      return store.query('employee', {
+        subManager:parent.get('id'),
+        enabled:true
+      });
     },
     extras : {
       label : 'Employee',
