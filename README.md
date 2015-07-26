@@ -110,4 +110,4 @@ ie. `{{control.extras.width}}` would allow you to access a custom width property
 * `npm install`
 * `bower install`
 * `ember server`
-* Visit http://localhost:4200.
+* Visit http://localhost:4200/ember-aupac-cascading-select/.
