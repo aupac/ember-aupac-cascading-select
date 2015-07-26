@@ -2,6 +2,9 @@
 
 Cascading/Dependent Select for Ember.
 
+![alt tag](https://github.com/aupac/ember-aupac-cascading-select/blob/master/example.jpg)
+
+
 ## Installation
 
 ```
