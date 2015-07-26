@@ -105,6 +105,28 @@ ie. `{{control.extras.width}}` would allow you to access a custom width property
 {{/aupac-cascading-select}}
 ``` 
 
+Or using [emberx-select](https://github.com/thefrontside/emberx-select)
+
+* Note that the optionValuePath needs to be overridden to 'content' instead of 'content.id' for each array item.
+
+```html
+      {{#aupac-cascading-select items=selectXitems store=store action=(action (mut finalSelectXSelection)) as |control|}}
+          <div class="form-group {{control.extras.width}}">
+              <label>{{control.extras.label}}</label>
+            {{x-select action=(action (mut control.selection))
+            multiple=false
+            content=control.content
+              selection=control.selection
+            optionValuePath=control.optionValuePath
+            optionLabelPath=control.optionLabelPath
+            prompt=control.prompt
+            disabled=control.disabled
+            class="form-control"
+            }}
+          </div>
+      {{/aupac-cascading-select}}
+```
+
 ## Demo
 
 * `git clone` this repository
