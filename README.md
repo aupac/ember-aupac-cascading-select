@@ -66,11 +66,10 @@ ie. {{control.extras.width}} would allow you to access a custom width property.
 
 ###Add the component to your template
 
-```
-action  : (required) An action that gets executed when the final selection is made.  The value of the selected item is passed as the first argument.
-items : (required) array of item configurations (see above)
-store : (optional) if you want to use ember-data to retrieve your models you need to pass a DS.Store through to the component.
-```
+
+- action  : (required) An action that gets executed when the final selection is made.  The value of the selected item is passed as the first argument.
+- items : (required) array of item configurations (see above)
+- store : (optional) if you want to use ember-data to retrieve your models you need to pass a DS.Store through to the component.
 
 ```html
 <!-- Notice the |control| at the end, each item in your 'items' array will be passed to this variable -->
