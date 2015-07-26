@@ -41,6 +41,7 @@ const AbstractControl = Ember.Object.extend({
     parentChanged : observer('parent.selection', function() {
         if(!this.get('isFirstControl')) {
           this.set('selection', null);
+          this.get('component').sendAction('action', null);
         }
     }),
 
