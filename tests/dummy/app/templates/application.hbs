@@ -1,3 +1,6 @@
+<a href="https://github.com/aupac/ember-aupac-cascading-select/blob/master/tests/dummy/app/controllers/application.js">Controller Source</a>
+<a href="https://github.com/aupac/ember-aupac-cascading-select/blob/master/tests/dummy/app/templates/application.hbs">Template Source</a>
+
 <div class="panel panel-default">
     <div class="panel-heading">Example Using Bootstrap Styling</div>
     <div class="panel-body">
@@ -24,33 +27,33 @@
     </div>
 </div>
 
-{{!-- Wait until prototype extension are working.
 <div class="panel panel-default">
-    <div class="panel-heading">Using ember-x-select (for ember 2.0 when Ember.Select is removed)</div>
+    <div class="panel-heading">Using <a href="https://github.com/thefrontside/emberx-select">emberx-select</a> (for ember 2.0 when Ember.Select is removed)</div>
     <div class="panel-body">
-      {{#aupac-cascading-select items=xSelectItems store=store action=(action (mut xSelectResult)) as |control|}}
-          <div>
-              <label>{{control.label}}</label><br>
-            {{x-select
+        <small>For this to work I needed to override the optionValuePath to be 'content' instead of 'content.id'</small>
+      {{#aupac-cascading-select items=selectXitems store=store action=(action (mut finalSelectXSelection)) as |control|}}
+          <div class="form-group {{control.extras.width}}">
+              <label>{{control.extras.label}}</label>
+            {{x-select action=(action (mut control.selection))
             multiple=false
             content=control.content
-            selection=control.selection
+              selection=control.selection
             optionValuePath=control.optionValuePath
             optionLabelPath=control.optionLabelPath
             prompt=control.prompt
             disabled=control.disabled
+            class="form-control"
             }}
           </div>
       {{/aupac-cascading-select}}
 
         <div class="row">
             <div class="col-xs-12">
-                You selected : {{xSelectResult.name}}
+                <h2>You selected : {{finalSelectXSelection.name}}</h2>
             </div>
         </div>
     </div>
 </div>
---}}
 
 
 

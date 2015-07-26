@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/aupac-cascading-select';
 
-const {computed, observer} = Ember;
+const {computed, observer, isNone} = Ember;
 
 const DefaultItem = Ember.Object.extend({
     optionValuePath :'content.id',
@@ -46,7 +46,7 @@ const AbstractControl = Ember.Object.extend({
 
     selectionChanged : observer('selection', function() {
         const selection = this.get('selection');
-        if(this.get('isLastControl')) {
+        if(this.get('isLastControl') && !isNone(selection)) {
             this.get('component').sendAction('action', selection);
         }
     })
