@@ -1,9 +1,9 @@
 <div class="panel panel-default">
-    <div class="panel-heading">Bootstrap Styling</div>
+    <div class="panel-heading">Example Using Bootstrap Styling</div>
     <div class="panel-body">
-      {{#aupac-cascading-select items=bootstrapStyledItems store=store action=(action (mut bootstrapStyledResult)) as |control|}}
+      {{#aupac-cascading-select items=items store=store action=(action (mut finalSelection)) as |control|}}
           <div class="form-group {{control.extras.width}}">
-              <label>{{control.label}}</label>
+              <label>{{control.extras.label}}</label>
             {{view "select"
             content=control.content
             selection=control.selection
@@ -18,32 +18,7 @@
 
         <div class="row">
             <div class="col-xs-12">
-                You selected : {{bootstrapStyledResult.name}}
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">No Styling / Custom Styling</div>
-    <div class="panel-body">
-      {{#aupac-cascading-select items=noStyledItems store=store action=(action (mut noStyledResult)) as |control|}}
-        <div>
-            <label>{{control.label}}</label><br>
-          {{view "select"
-          content=control.content
-          selection=control.selection
-          optionValuePath=control.optionValuePath
-          optionLabelPath=control.optionLabelPath
-          prompt=control.prompt
-          disabled=control.disabled
-          }}
-        </div>
-      {{/aupac-cascading-select}}
-
-        <div class="row">
-            <div class="col-xs-12">
-                You selected : {{noStyledResult.name}}
+                <h2>You selected : {{finalSelection.name}}</h2>
             </div>
         </div>
     </div>
