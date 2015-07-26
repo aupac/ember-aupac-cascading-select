@@ -19,15 +19,18 @@ ember install ember-aupac-cascading-select
 ```javascript
   items : [{
     content : function(parent, store) {
+      //Here we are using ember-data to return all managers
       return store.findAll('manager');
     },
     extras : {
+      //The extras object allows you to pass arbitrary information for use in the template
       label : 'Manager',
       width : 'col-xs-2'
     }
   },
   {
     content : function(parent, store) {
+      //Here we are retrieving a hasMany relationship (subManagers) on a manager (see above) and populating the select with them. 
       return parent.get('subManagers');
     },
     extras : {
@@ -36,6 +39,10 @@ ember install ember-aupac-cascading-select
     }
   },
   {
+    //You can override the property on the model used for display in the select, the default is `content.displayName`
+    optionLabelPath : 'content.name',
+    //You override the default "Please Select" with whatever you like.
+    prompt : 'Select an Employee',
     content : function(parent, store) {
       return parent.get('employees');
     },
