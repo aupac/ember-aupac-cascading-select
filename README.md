@@ -47,13 +47,13 @@ ember install ember-aupac-cascading-select
 ```
 
 ####Each array item can contain the following options:
-```
-    content (required) function that returns the content to display in the dropdown.  The 'parent' item is passed in as an argument.
-    optionValuePath (default: 'content.id') The ID property on the model
-    optionLabelPath (default: 'content.displayName') The property on the model that you want to display to the user
-    prompt (default 'Please Select') The default selection label
-    extras (default - empty object) An object containing any other information you would like to yield to the component
-```
+
+-    content (required) - function that returns the content to display in the dropdown.  The 'parent' item is passed in as an argument.
+-    optionValuePath (default: 'content.id') - The ID property on the model
+-    optionLabelPath (default: 'content.displayName') - The property on the model that you want to display to the user
+-    prompt (default 'Please Select') - The default selection label
+-    extras (default - empty object) - An object containing any other information you would like to yield to the component
+
 
 All properties above will be available from the |control|
 
@@ -61,8 +61,8 @@ ie. {{control.extras.width}} would allow you to access a custom width property.
 
 ####In addition to the above there are some automatic properties that are controlled by the component and available in the template.
 
-control.disabled - is the control disabled.
-control.selection - the current selection (will be null if no selection is made)
+- control.disabled - is the control disabled.
+- control.selection - the current selection (will be null if no selection is made)
 
 ###Add the component to your template
 
