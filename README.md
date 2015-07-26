@@ -15,8 +15,8 @@ ember install ember-aupac-cascading-select
 ####Add an array of models you want to include in your select
 ```javascript
   items : [{
-    content : function(parent) {
-      return this.store.findAll('manager');
+    content : function(parent, store) {
+      return store.findAll('manager');
     },
     extras : {
       label : 'Manager',
@@ -24,7 +24,7 @@ ember install ember-aupac-cascading-select
     }
   },
   {
-    content : function(parent) {
+    content : function(parent, store) {
       return parent.get('subManagers');
     },
     extras : {
@@ -33,7 +33,7 @@ ember install ember-aupac-cascading-select
     }
   },
   {
-    content : function(parent) {
+    content : function(parent, store) {
       return parent.get('employees');
     },
     extras : {
@@ -45,7 +45,7 @@ ember install ember-aupac-cascading-select
 
 ####Each array item can contain the following options:
 ```
-    content (required) function that returns the contend to display in the dropdown.  The 'parent' item is passed in as an argument.
+    content (required) function that returns the content to display in the dropdown.  The 'parent' item is passed in as an argument.
     optionValuePath (default: 'content.id') The ID property on the model
     optionLabelPath (default: 'content.displayName') The property on the model that you want to display to the user
     prompt (default 'Please Select') The default selection label
@@ -59,12 +59,12 @@ ie. {{control.extras.width}} would allow you to access a custom width property.
 ####In addition to the above there are some automatic properties that are controlled by the component and available in the template.
 
 control.disabled - is the control disabled.
-control.selection - the current selection (will be null is no selection is made)
+control.selection - the current selection (will be null if no selection is made)
 
 ###Add the component to your template
 
 ```
-action  : (required) An action that gets executed when the final selection is made.  The value of the selected item is passed as a parameter.
+action  : (required) An action that gets executed when the final selection is made.  The value of the selected item is passed as the first argument.
 items : (required) array of item configurations (see above)
 store : (optional) if you want to use ember-data to retrieve your models you need to pass a DS.Store through to the component.
 ```
