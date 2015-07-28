@@ -1,6 +1,6 @@
 # ember-aupac-cascading-select
 
-Cascading/Dependent Select for Ember.
+Flexible Cascading/Dependent Select for Ember.
 
 ![alt tag](https://github.com/aupac/ember-aupac-cascading-select/blob/master/example.jpg)
 
