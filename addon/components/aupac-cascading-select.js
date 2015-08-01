@@ -65,7 +65,6 @@ export default Ember.Component.extend({
 
   //private variables and functions
   controls : null,
-  model : null,
 
   generateControls : Ember.on('init', observer('items.length', function() {
       const items = this.get('items');
@@ -74,9 +73,6 @@ export default Ember.Component.extend({
       if(!Array.isArray(items)) {
       	throw Error('You need to specify an "items" object in your controller');
       }
-
-      this.set('model', Ember.Object.create({}));
-      const model = this.get('model');
 
       //Generate the controls
       items.forEach((item, idx) => {
@@ -94,7 +90,7 @@ export default Ember.Component.extend({
                   return index === 0 ? null : controls[index - 1];
               }), //public
               controls : controls, //TODO breaks Hollywood principal (try to get rid of this)
-              selection: null //model.get(`item${idx}`) //public
+              selection: null //public
           });
 
           controls.pushObject(SelectControl.create());
