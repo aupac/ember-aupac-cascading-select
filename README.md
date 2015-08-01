@@ -18,44 +18,49 @@ ember install ember-aupac-cascading-select
 
 ####Add an array of models you want to include in your select
 ```javascript
-  items : [{
-    content : function(parent, store) {
-      //Here we are using ember-data to return all managers
-      return store.findAll('manager');
+  items : Ember.computed(function() {
+    const store = this.store; //if you need access to the DS.Store use a computed property
+    return [{
+      content : function(parent) {
+        //Here we are using ember-data to return all managers
+        return store.findAll('manager');
+      },
+      extras : {
+        //The extras object allows you to pass arbitrary information for use in the template
+        label : 'Manager',
+        width : 'col-xs-2'
+      }
     },
-    extras : {
-      //The extras object allows you to pass arbitrary information for use in the template
-      label : 'Manager',
-      width : 'col-xs-2'
-    }
-  },
-  {
-    content : function(parent, store) {
-      //Here we are retrieving a hasMany relationship (subManagers) on a manager (see above) and populating the select with them. 
-      return parent.get('subManagers');
+    {
+      content : function(parent) {
+        //Here we are retrieving a hasMany relationship (subManagers) on a manager (see above) and populating the select with them. 
+        return parent.get('subManagers');
+      },
+      extras : {
+        label : 'Sub Manager',
+        width : 'col-xs-2'
+      }
     },
-    extras : {
-      label : 'Sub Manager',
-      width : 'col-xs-2'
+    {
+      //You can override the property on the model used for display in the select, the default is `content.displayName`
+      optionLabelPath : 'content.name',
+      //You override the default "Please Select" with whatever you like.
+      prompt : 'Select an Employee',
+      content : function(parent) {
+        //You can fine tune you requests how you like 
+        return store.query('employee', {
+          subManager:parent.get('id'),
+          enabled:true
+        });
+      },
+      extras : {
+        label : 'Employee',
+        width : 'col-xs-2'
+      }
     }
-  },
-  {
-    //You can override the property on the model used for display in the select, the default is `content.displayName`
-    optionLabelPath : 'content.name',
-    //You override the default "Please Select" with whatever you like.
-    prompt : 'Select an Employee',
-    content : function(parent, store) {
-      //You can fine tune you requests how you like 
-      return store.query('employee', {
-        subManager:parent.get('id'),
-        enabled:true
-      });
-    },
-    extras : {
-      label : 'Employee',
-      width : 'col-xs-2'
-    }
-  }
+  })
+  
+
 ```
 
 ####Each array item can contain the following options:
@@ -81,12 +86,11 @@ ie. `{{control.extras.width}}` would allow you to access a custom width property
 
 - `action`  : (required) - An action that gets executed when the final selection is made.  The value of the selected item is passed as the first argument.
 - `items` : (required) - array of item configurations (see above)
-- `store` : (optional) - if you want to use ember-data to retrieve your models you need to pass a DS.Store through to the component.
 
 ```html
 <!-- Notice the |control| at the end, each item in your 'items' array will be passed to this variable -->
 <!-- Notice the 'action' shorthand '(action (mut selectedItem))', this basically sets up an action to set the selectedItem property without actually needing the action on the controller -->
-{{#aupac-cascading-select items=items store=store action=(action (mut selectedItem)) as |control|}}
+{{#aupac-cascading-select items=items action=(action (mut selectedItem)) as |control|}}
   <!-- In the component block you can create a select element based on your control, here I am using the soon to be removed Ember.Select in Ember2.0.-->
   <!-- If you like, you can use emberx-select or something else -->
   <div class="form-group {{control.extras.width}}">
@@ -110,7 +114,7 @@ Or using [emberx-select](https://github.com/thefrontside/emberx-select)
 * Note that the optionValuePath needs to be overridden to 'content' instead of 'content.id' for each array item.
 
 ```html
-      {{#aupac-cascading-select items=items store=store action=(action (mut selectedItem)) as |control|}}
+      {{#aupac-cascading-select items=items action=(action (mut selectedItem)) as |control|}}
           <div class="form-group {{control.extras.width}}">
               <label>{{control.extras.label}}</label>
             {{x-select action=(action (mut control.selection))

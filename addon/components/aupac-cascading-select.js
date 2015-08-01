@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/aupac-cascading-select';
 
-const {computed, observer, isNone} = Ember;
+const {computed, observer, isNone, service} = Ember;
 
 const DefaultItem = Ember.Object.extend({
     optionValuePath :'content.id',
@@ -19,7 +19,7 @@ const AbstractControl = Ember.Object.extend({
       const parentSelection = this.get('parent.selection');
       const isFirstControl = this.get('index') === 0;
       if(isFirstControl || parentSelection) {
-        return this.contentRequest(parentSelection, this.get('store'));
+        return this.contentRequest(parentSelection);
       } else {
         return Ember.A([]);
       }
@@ -90,8 +90,7 @@ export default Ember.Component.extend({
                   return index === 0 ? null : controls[index - 1];
               }),
               controls : controls, //TODO breaks Hollywood principal (try to get rid of this)
-              selection: model.get(`item${idx}`),
-              store: this.get('store')
+              selection: model.get(`item${idx}`)
           });
 
           controls.pushObject(SelectControl.create());
