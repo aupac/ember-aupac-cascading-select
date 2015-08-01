@@ -26,7 +26,7 @@ const AbstractControl = Ember.Object.extend({
     }),
 
     zeroRecords : computed.equal('content.length', 0),
-    isLoading : computed.and('zeroRecords', 'enabled'),
+    isLoading : computed.and('zeroRecords', 'enabled'), //public
 
     selectionInvalid: computed.none('selection'),
     selectionValid: computed.not('selectionInvalid'),
@@ -34,12 +34,13 @@ const AbstractControl = Ember.Object.extend({
     parentInvalid : computed.none('parent.selection'),
     parentValid : computed.not('parentInvalid'),
 
-    isFirstControl : computed.equal('index', 0),
+    isFirstControl : computed.equal('index', 0), //public
     isLastControl : computed('index', function() {
         return this.get('index') === (this.get('controls.length') - 1);
-    }),
-    enabled : computed.or('isFirstControl', 'parentValid'),
-    disabled: computed.not('enabled'),
+    }), //public
+    enabled : computed.or('isFirstControl', 'parentValid'), //public
+    notEnabled : computed.not('enabled'),
+    disabled: computed.or('notEnabled', 'isLoading'), //public
 
     parentChanged : observer('parent.selection', function() {
         if(!this.get('isFirstControl')) {
@@ -82,18 +83,18 @@ export default Ember.Component.extend({
           const mergedItem = DefaultItem.create(item);
           const SelectControl = AbstractControl.extend({
               component : this,
-              index : idx,
-              extras: mergedItem.get('extras'),
-              prompt: mergedItem.get('prompt'),
-              optionValuePath: mergedItem.get('optionValuePath'),
-              optionLabelPath: mergedItem.get('optionLabelPath'),
+              index : idx, //public
+              extras: mergedItem.get('extras'), //public
+              prompt: mergedItem.get('prompt'), //public
+              optionValuePath: mergedItem.get('optionValuePath'), //public
+              optionLabelPath: mergedItem.get('optionLabelPath'), //public
               contentRequest : mergedItem.get('content'), //renamed as actual content implementation does some extra stuff
               parent : computed('index', function() {
                   const index = this.get('index');
                   return index === 0 ? null : controls[index - 1];
-              }),
+              }), //public
               controls : controls, //TODO breaks Hollywood principal (try to get rid of this)
-              selection: model.get(`item${idx}`)
+              selection: null //model.get(`item${idx}`) //public
           });
 
           controls.pushObject(SelectControl.create());

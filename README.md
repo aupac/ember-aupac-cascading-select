@@ -84,7 +84,7 @@ ie. `{{control.extras.width}}` would allow you to access a custom width property
 - `control.isLoading` - `true` when the current controls content is being loaded.
 - `control.isFirstControl` - `true` if the current control is the first one in the array.
 - `control.isLastControl` - `true` if the current control is the last one in the array.
-- `control.index` - The current array index of the control in the array.
+- `control.index` - the current array index of the control.
 
 ###Add the component to your template
 
@@ -119,8 +119,11 @@ Or using [emberx-select](https://github.com/thefrontside/emberx-select)
 * Note that the optionValuePath needs to be overridden to 'content' instead of 'content.id' for each array item.
 
 ```html
-      {{#aupac-cascading-select items=items action=(action (mut selectedItem)) as |control|}}
+      {{#aupac-cascading-select items=selectXitems action=(action (mut finalSelectXSelection)) as |control|}}
           <div class="form-group {{control.extras.width}}">
+            {{#if control.isLoading}}
+                <i class="fa fa-spinner fa-pulse"></i>
+            {{/if}}
               <label>{{control.extras.label}}</label>
             {{x-select action=(action (mut control.selection))
             multiple=false
