@@ -78,14 +78,19 @@ ie. `{{control.extras.width}}` would allow you to access a custom width property
 
 ####In addition to the above there are some automatic properties that are controlled by the component and available in the template.
 
-- `control.disabled` - is the control disabled.
-- `control.selection` - the current selection (will be null if no selection is made)
+- `control.selection` - the current selection (will be null if no selection is made).
+- `control.disabled` - `true` if the control is disabled.
+- `control.enabled` - `true` if the control is enabled.
+- `control.isLoading` - `true` when the current controls content is being loaded.
+- `control.isFirstControl` - `true` if the current control is the first one in the array.
+- `control.isLastControl` - `true` if the current control is the last one in the array.
+- `control.index` - The current array index of the control in the array.
 
 ###Add the component to your template
 
 
 - `action`  : (required) - An action that gets executed when the final selection is made.  The value of the selected item is passed as the first argument.
-- `items` : (required) - array of item configurations (see above)
+- `items` : (required) - array of item configurations (see above).
 
 ```html
 <!-- Notice the |control| at the end, each item in your 'items' array will be passed to this variable -->

@@ -25,6 +25,9 @@ const AbstractControl = Ember.Object.extend({
       }
     }),
 
+    zeroRecords : computed.equal('content.length', 0),
+    isLoading : computed.and('zeroRecords', 'enabled'),
+
     selectionInvalid: computed.none('selection'),
     selectionValid: computed.not('selectionInvalid'),
 

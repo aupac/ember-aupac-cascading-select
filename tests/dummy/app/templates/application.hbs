@@ -8,6 +8,9 @@
     <div class="panel-body">
       {{#aupac-cascading-select items=items action=(action (mut finalSelection)) as |control|}}
           <div class="form-group {{control.extras.width}}">
+              {{#if control.isLoading}}
+                  <i class="fa fa-spinner fa-pulse"></i>
+              {{/if}}
               <label>{{control.extras.label}}</label>
             {{view "select"
             content=control.content
@@ -35,6 +38,9 @@
 
       {{#aupac-cascading-select items=selectXitems action=(action (mut finalSelectXSelection)) as |control|}}
           <div class="form-group {{control.extras.width}}">
+            {{#if control.isLoading}}
+                <i class="fa fa-spinner fa-pulse"></i>
+            {{/if}}
               <label>{{control.extras.label}}</label>
             {{x-select action=(action (mut control.selection))
             multiple=false
