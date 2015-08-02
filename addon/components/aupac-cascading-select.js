@@ -4,7 +4,7 @@ import layout from '../templates/components/aupac-cascading-select';
 const {computed, observer, isNone} = Ember;
 
 const DefaultItem = Ember.Object.extend({
-    optionValuePath :'content.id',
+    optionValuePath :'content',
     optionLabelPath : 'content.displayName',
     prompt : 'Please Select',
     content : function() {
@@ -51,8 +51,12 @@ const AbstractControl = Ember.Object.extend({
 
     selectionChanged : observer('selection', function() {
         const selection = this.get('selection');
-        if(this.get('isLastControl') && !isNone(selection)) {
+        if(this.get('isLastControl')) {
+          if(isNone(selection)) {
+            this.get('component').sendAction('action', null);
+          } else {
             this.get('component').sendAction('action', selection);
+          }
         }
     })
 });
@@ -66,12 +70,12 @@ export default Ember.Component.extend({
   //private variables and functions
   controls : null,
 
-  generateControls : Ember.on('init', observer('items.length', function() {
+  generateControls : Ember.on('init', observer('items.length',function() {
       const items = this.get('items');
       const controls = Ember.A([]);
 
       if(!Array.isArray(items)) {
-      	throw Error('You need to specify an "items" object in your controller');
+      	throw Error('You need to specify an "items" array in your controller');
       }
 
       //Generate the controls
@@ -90,11 +94,16 @@ export default Ember.Component.extend({
                   return index === 0 ? null : controls[index - 1];
               }), //public
               controls : controls, //TODO breaks Hollywood principal (try to get rid of this)
-              selection: null //public
+              selection: mergedItem.get('selection') //public
           });
 
           controls.pushObject(SelectControl.create());
       });
+
+      const lastSelection = controls.get('lastObject.selection');
+      if(lastSelection) {
+        this.sendAction('action', lastSelection);
+      }
 
       this.set('controls', controls);
   }))

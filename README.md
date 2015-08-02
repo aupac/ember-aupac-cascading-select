@@ -66,11 +66,11 @@ ember install ember-aupac-cascading-select
 ####Each array item can contain the following options:
 
 -    `content` (required) - function that returns the content to display in the dropdown.  The 'parent' item is passed in as an argument.
--    `optionValuePath` (default: 'content.id') - The ID property on the model
+-    `optionValuePath` (default: 'content') - The ID property on the model
 -    `optionLabelPath` (default: 'content.displayName') - The property on the model that you want to display to the user
 -    `prompt` (default 'Please Select') - The default selection label
 -    `extras` (default - empty object) - An object containing any other information you would like to yield to the component
-
+-    `selection` (default - null) - The initial object to select from the list (**must be a resolved promise**)
 
 All properties above will be available from the |control|
 
@@ -116,8 +116,6 @@ ie. `{{control.extras.width}}` would allow you to access a custom width property
 
 Or using [emberx-select](https://github.com/thefrontside/emberx-select)
 
-* Note that the optionValuePath needs to be overridden to 'content' instead of 'content.id' for each array item.
-
 ```html
       {{#aupac-cascading-select items=selectXitems action=(action (mut finalSelectXSelection)) as |control|}}
           <div class="form-group {{control.extras.width}}">
@@ -138,6 +136,82 @@ Or using [emberx-select](https://github.com/thefrontside/emberx-select)
           </div>
       {{/aupac-cascading-select}}
 ```
+
+###Prepopulating selections
+In some cases you may want to pre-populate selections.  This can ba achieved by setting the `selection` property for each element in the array, however, you need to ensure all promises are resolved beforehand.  
+Be sure to set the items array after all promises have completed
+
+One way of doing this it to setup
+
+```javascript
+  items: [], //in this case we bind to an empty array which will be updated once all promises have resolved.
+
+  itemsUpdate : Ember.on('init', function() {
+    const store = this.store;
+    Ember.RSVP.all([
+      store.findRecord('manager', 1),
+      store.findRecord('sub-manager', 2),
+      store.findRecord('employee', 3),
+      store.findRecord('task', 4),
+      store.findRecord('sub-task', 5)
+    ]).then((results) => {
+      const items = [{
+        content : function(parent) {
+          return store.findAll('manager');
+        },
+        extras : {
+          label : 'Manager',
+          width : 'col-xs-2'
+        },
+        selection : results[0]
+      },
+        {
+          content : function(parent) {
+            return store.findAll('sub-manager');
+          },
+          extras : {
+            label : 'Sub Manager',
+            width : 'col-xs-2'
+          },
+          selection : results[1]
+        },
+        {
+          content : function(parent) {
+            return store.findAll('employee');
+          },
+          extras : {
+            label : 'Employee',
+            width : 'col-xs-2'
+          },
+          selection : results[2]
+        },
+        {
+          content : function(parent) {
+            return store.findAll('task');
+          },
+          extras : {
+            label : 'Task',
+            width : 'col-xs-2'
+          },
+          selection : results[3]
+        },
+        {
+          content : function(parent) {
+            return store.findAll('sub-task');
+          },
+          extras : {
+            label : 'Sub Task',
+            width : 'col-xs-2'
+          },
+          selection : results[4]
+        }];
+
+      this.set('items',items); //now that all the promises are resolved we update the items array.
+    });
+  })
+
+```
+
 
 ## Demo
 

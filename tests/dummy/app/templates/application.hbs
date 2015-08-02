@@ -6,7 +6,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">Example Using Bootstrap Styling</div>
     <div class="panel-body">
-      {{#aupac-cascading-select items=items action=(action (mut finalSelection)) as |control|}}
+      {{#aupac-cascading-select items=items1 action=(action (mut items1Selection)) as |control|}}
           <div class="form-group {{control.extras.width}}">
               {{#if control.isLoading}}
                   <i class="fa fa-spinner fa-pulse"></i>
@@ -26,7 +26,7 @@
 
         <div class="row">
             <div class="col-xs-12">
-                <h2>You selected : {{finalSelection.name}}</h2>
+                <h2>You selected : {{items1Selection.name}}</h2>
             </div>
         </div>
     </div>
@@ -36,7 +36,7 @@
     <div class="panel-heading">Using <a href="https://github.com/thefrontside/emberx-select">emberx-select</a> (for ember 2.0 when Ember.Select is removed)</div>
     <div class="panel-body">
 
-      {{#aupac-cascading-select items=selectXitems action=(action (mut finalSelectXSelection)) as |control|}}
+      {{#aupac-cascading-select items=items2 action=(action (mut items2Selection)) as |control|}}
           <div class="form-group {{control.extras.width}}">
             {{#if control.isLoading}}
                 <i class="fa fa-spinner fa-pulse"></i>
@@ -45,7 +45,7 @@
             {{x-select action=(action (mut control.selection))
             multiple=false
             content=control.content
-              selection=control.selection
+            selection=control.selection
             optionValuePath=control.optionValuePath
             optionLabelPath=control.optionLabelPath
             prompt=control.prompt
@@ -57,10 +57,54 @@
 
         <div class="row">
             <div class="col-xs-12">
-                * Note: <small>For this to work I needed to override the optionValuePath to be 'content' instead of 'content.id'</small><br>
+                <h2>You selected : {{items2Selection.name}}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">Pre-selecting items</div>
+    <div class="panel-body">
+
+      {{#aupac-cascading-select items=items3 action=(action (mut items3Selection)) as |control|}}
+          <div class="form-group {{control.extras.width}}">
+            {{#if control.isLoading}}
+                <i class="fa fa-spinner fa-pulse"></i>
+            {{/if}}
+              <label>{{control.extras.label}}</label>
+
+            {{#x-select value=control.selection disabled=control.disabled action=(action (mut control.selection)) class="form-control"}}
+              {{#x-option value=null}}{{control.prompt}}{{/x-option}}
+              {{#each control.content as |item|}}
+                {{#x-option value=item}}
+                  {{item.name}} {{!-- {{get item control.optionLabelPath}} Ember 2.0--}}
+                {{/x-option}}
+              {{/each}}
+            {{/x-select}}
+
+            {{!-- Ember.Select
+            {{x-select action=(action (mut control.selection))
+            multiple=false
+            content=control.content
+            selection=control.selection
+            optionValuePath=control.optionValuePath
+            optionLabelPath=control.optionLabelPath
+            prompt=control.prompt
+            disabled=control.disabled
+            class="form-control"
+            }}--}}
+          </div>
+      {{/aupac-cascading-select}}
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                * Note: <small>For this to work, all "seletion" promises need to be resolved before updating the items array</small><br>
             </div>
             <div class="col-xs-12">
-                <h2>You selected : {{finalSelectXSelection.name}}</h2>
+                <h2>You selected : {{items3Selection.name}}</h2>
             </div>
         </div>
     </div>

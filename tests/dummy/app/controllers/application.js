@@ -3,17 +3,17 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 
   //Bootstrap Styling
-  items : Ember.computed(function() {
+  items1 :Ember.computed(function() {
     const store = this.store;
-      return [{
-        content : function(parent) {
-          return store.findAll('manager');
-        },
-        extras : {
-          label : 'Manager',
-          width : 'col-xs-2'
-        }
+    return [{
+      content : function(parent) {
+        return store.findAll('manager');
       },
+      extras : {
+        label : 'Manager',
+        width : 'col-xs-2'
+      }
+    },
       {
         content : function(parent) {
           return store.findAll('sub-manager');
@@ -52,26 +52,25 @@ export default Ember.Controller.extend({
       }];
   }),
 
-  finalSelection : null,
+  items1Selection : null,
 
   //Select X
-  selectXitems : Ember.computed(function() {
+  items2 : Ember.computed(function() {
     const store = this.store;
     return [{
         content : function(parent) {
           return store.findAll('manager');
         },
-        optionValuePath : 'content',
         extras : {
           label : 'Manager',
           width : 'col-xs-2'
-        }
+        },
+        selection : store.find('manager', 1)
       },
       {
         content : function(parent) {
           return store.findAll('sub-manager');
         },
-        optionValuePath : 'content',
         extras : {
           label : 'Sub Manager',
           width : 'col-xs-2'
@@ -81,7 +80,6 @@ export default Ember.Controller.extend({
         content : function(parent) {
           return store.findAll('employee');
         },
-        optionValuePath : 'content',
         extras : {
           label : 'Employee',
           width : 'col-xs-2'
@@ -91,7 +89,6 @@ export default Ember.Controller.extend({
         content : function(parent) {
           return store.findAll('task');
         },
-        optionValuePath : 'content',
         extras : {
           label : 'Task',
           width : 'col-xs-2'
@@ -101,7 +98,6 @@ export default Ember.Controller.extend({
         content : function(parent) {
           return store.findAll('sub-task');
         },
-        optionValuePath : 'content',
         extras : {
           label : 'Sub Task',
           width : 'col-xs-2'
@@ -109,6 +105,78 @@ export default Ember.Controller.extend({
       }];
   }),
 
-  finalSelectXSelection : null,
+  items2Selection : null,
+
+
+  //Preselected items
+  items3: [],
+
+  //Bootstrap Styling
+  items3Update : Ember.on('init', function() {
+    const store = this.store;
+    Ember.RSVP.all([
+      store.findRecord('manager', 1),
+      store.findRecord('sub-manager', 2),
+      store.findRecord('employee', 3),
+      store.findRecord('task', 4),
+      store.findRecord('sub-task', 5)
+    ]).then((results) => {
+      const items = [{
+        content : function(parent) {
+          return store.findAll('manager');
+        },
+        extras : {
+          label : 'Manager',
+          width : 'col-xs-2'
+        },
+        selection : results[0]
+      },
+        {
+          content : function(parent) {
+            return store.findAll('sub-manager');
+          },
+          extras : {
+            label : 'Sub Manager',
+            width : 'col-xs-2'
+          },
+          selection : results[1]
+        },
+        {
+          content : function(parent) {
+            return store.findAll('employee');
+          },
+          extras : {
+            label : 'Employee',
+            width : 'col-xs-2'
+          },
+          selection : results[2]
+        },
+        {
+          content : function(parent) {
+            return store.findAll('task');
+          },
+          extras : {
+            label : 'Task',
+            width : 'col-xs-2'
+          },
+          selection : results[3]
+        },
+        {
+          content : function(parent) {
+            return store.findAll('sub-task');
+          },
+          extras : {
+            label : 'Sub Task',
+            width : 'col-xs-2'
+          },
+          selection : results[4]
+        }];
+
+      this.set('items3',items);
+
+    });
+  }),
+
+  items3Selection : null,
 
 });
