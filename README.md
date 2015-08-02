@@ -137,11 +137,11 @@ Or using [emberx-select](https://github.com/thefrontside/emberx-select)
       {{/aupac-cascading-select}}
 ```
 
-###Prepopulating selections
+###Pre-populating selections
 In some cases you may want to pre-populate selections.  This can ba achieved by setting the `selection` property for each element in the array, however, you need to ensure all promises are resolved beforehand.  
 Be sure to set the items array after all promises have completed
 
-One way of doing this it to setup
+One way of doing this is as follows:
 
 ```javascript
   items: [], //in this case we bind to an empty array which will be updated once all promises have resolved.
