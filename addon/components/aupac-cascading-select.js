@@ -7,6 +7,7 @@ const DefaultItem = Ember.Object.extend({
     optionValuePath :'content',
     optionLabelPath : 'content.displayName',
     prompt : 'Please Select',
+    sort : ['id'],
     content : function() {
       return Ember.A([]);
     },
@@ -15,7 +16,7 @@ const DefaultItem = Ember.Object.extend({
 
 const AbstractControl = Ember.Object.extend({
 
-    content: computed('parent.selection', function() {
+    nonSortedContent: computed('parent.selection', function() {
       const parentSelection = this.get('parent.selection');
       const isFirstControl = this.get('index') === 0;
       if(isFirstControl || parentSelection) {
@@ -24,6 +25,7 @@ const AbstractControl = Ember.Object.extend({
         return Ember.A([]);
       }
     }),
+    content : computed.sort('nonSortedContent','sort'),
 
     zeroRecords : computed.equal('content.length', 0),
     isLoading : computed.and('zeroRecords', 'enabled'), //public
@@ -94,7 +96,8 @@ export default Ember.Component.extend({
                   return index === 0 ? null : controls[index - 1];
               }), //public
               controls : controls, //TODO breaks Hollywood principal (try to get rid of this)
-              selection: mergedItem.get('selection') //public
+              selection: mergedItem.get('selection'), //public
+              sort : mergedItem.get('sort') //public
           });
 
           controls.pushObject(SelectControl.create());

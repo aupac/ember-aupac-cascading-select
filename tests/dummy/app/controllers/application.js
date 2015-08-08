@@ -6,24 +6,23 @@ export default Ember.Controller.extend({
   items1 :Ember.computed(function() {
     const store = this.store;
     return [{
-      content : function(parent) {
-        return store.findAll('manager');
-      },
-      extras : {
-        label : 'Manager',
-        width : 'col-xs-2'
-      }
-    },
-      {
+        content : function(parent) {
+          return store.findAll('manager');
+        },
+        extras : {
+          label : 'Manager',
+          width : 'col-xs-2'
+        }
+      },{
         content : function(parent) {
           return store.findAll('sub-manager');
         },
+        sort : ['displayName:desc'],
         extras : {
-          label : 'Sub Manager',
+          label : 'Sub Manager (in descending order)',
           width : 'col-xs-2'
         }
-      },
-      {
+      },{
         content : function(parent) {
           return store.findAll('employee');
         },
@@ -31,8 +30,7 @@ export default Ember.Controller.extend({
           label : 'Employee',
           width : 'col-xs-2'
         }
-      },
-      {
+      },{
         content : function(parent) {
           return store.findAll('task');
         },
@@ -40,8 +38,7 @@ export default Ember.Controller.extend({
           label : 'Task',
           width : 'col-xs-2'
         }
-      },
-      {
+      },{
         content : function(parent) {
           return store.findAll('sub-task');
         },
@@ -66,8 +63,7 @@ export default Ember.Controller.extend({
           width : 'col-xs-2'
         },
         selection : store.find('manager', 1)
-      },
-      {
+      },{
         content : function(parent) {
           return store.findAll('sub-manager');
         },
@@ -75,8 +71,7 @@ export default Ember.Controller.extend({
           label : 'Sub Manager',
           width : 'col-xs-2'
         }
-      },
-      {
+      },{
         content : function(parent) {
           return store.findAll('employee');
         },
@@ -84,8 +79,7 @@ export default Ember.Controller.extend({
           label : 'Employee',
           width : 'col-xs-2'
         }
-      },
-      {
+      },{
         content : function(parent) {
           return store.findAll('task');
         },
@@ -93,8 +87,7 @@ export default Ember.Controller.extend({
           label : 'Task',
           width : 'col-xs-2'
         }
-      },
-      {
+      }, {
         content : function(parent) {
           return store.findAll('sub-task');
         },
@@ -122,16 +115,15 @@ export default Ember.Controller.extend({
       store.findRecord('sub-task', 5)
     ]).then((results) => {
       const items = [{
-        content : function(parent) {
-          return store.findAll('manager');
-        },
-        extras : {
-          label : 'Manager',
-          width : 'col-xs-2'
-        },
-        selection : results[0]
-      },
-        {
+          content : function(parent) {
+            return store.findAll('manager');
+          },
+          extras : {
+            label : 'Manager',
+            width : 'col-xs-2'
+          },
+          selection : results[0]
+        },{
           content : function(parent) {
             return store.findAll('sub-manager');
           },
@@ -140,8 +132,7 @@ export default Ember.Controller.extend({
             width : 'col-xs-2'
           },
           selection : results[1]
-        },
-        {
+        },{
           content : function(parent) {
             return store.findAll('employee');
           },
@@ -150,8 +141,7 @@ export default Ember.Controller.extend({
             width : 'col-xs-2'
           },
           selection : results[2]
-        },
-        {
+        },{
           content : function(parent) {
             return store.findAll('task');
           },
@@ -160,8 +150,7 @@ export default Ember.Controller.extend({
             width : 'col-xs-2'
           },
           selection : results[3]
-        },
-        {
+        },{
           content : function(parent) {
             return store.findAll('sub-task');
           },

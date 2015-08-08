@@ -71,6 +71,7 @@ ember install ember-aupac-cascading-select
 -    `prompt` (default 'Please Select') - The default selection label
 -    `extras` (default - empty object) - An object containing any other information you would like to yield to the component
 -    `selection` (default - null) - The initial object to select from the list (**must be a resolved promise**)
+-    `sort` : (default - ['id']) - attributes to sort by (can sort in descending order by suing 'id:desc')
 
 All properties above will be available from the |control|
 
