@@ -4,7 +4,7 @@ Flexible Cascading/Dependent Select for Ember.
 
 ![alt tag](https://github.com/aupac/ember-aupac-cascading-select/blob/master/example.jpg)
 
-Demo [here](http://aupac.github.io/ember-aupac-cascading-select/)
+Demo [HERE](http://aupac.github.io/ember-aupac-cascading-select/)
 
 ## Installation
 
@@ -12,11 +12,11 @@ Demo [here](http://aupac.github.io/ember-aupac-cascading-select/)
 ember install ember-aupac-cascading-select
 ```
 
-##Usage
+## Usage
 
-###In your controller
+### In your controller
 
-####Add an array of models you want to include in your select
+#### Add an array of models you want to include in your select
 ```javascript
   items : Ember.computed(function() {
     const store = this.store; //if you need access to the DS.Store use a computed property
@@ -63,7 +63,7 @@ ember install ember-aupac-cascading-select
 
 ```
 
-####Each array item can contain the following options:
+#### Each array item can contain the following options:
 
 -    `content` (required) - function that returns the content to display in the dropdown.  The 'parent' item is passed in as an argument.
 -    `optionValuePath` (default: 'content') - The ID property on the model
@@ -77,7 +77,7 @@ All properties above will be available from the |control|
 
 ie. `{{control.extras.width}}` would allow you to access a custom width property.
 
-####In addition to the above there are some automatic properties that are controlled by the component and available in the template.
+#### In addition to the above there are some automatic properties that are controlled by the component and available in the template.
 
 - `control.selection` - the current selection (will be null if no selection is made).
 - `control.disabled` - `true` if the control is disabled.
@@ -87,7 +87,7 @@ ie. `{{control.extras.width}}` would allow you to access a custom width property
 - `control.isLastControl` - `true` if the current control is the last one in the array.
 - `control.index` - the current array index of the control.
 
-###Add the component to your template
+### Add the component to your template
 
 
 - `action`  : (required) - An action that gets executed when the final selection is made.  The value of the selected item is passed as the first argument.
@@ -138,7 +138,7 @@ Or using [emberx-select](https://github.com/thefrontside/emberx-select)
       {{/aupac-cascading-select}}
 ```
 
-###Pre-populating selections
+### Pre-populating selections
 In some cases you may want to pre-populate selections.  This can ba achieved by setting the `selection` property for each element in the array, however, you need to ensure all promises are resolved beforehand.  
 Be sure to set the items array after all promises have completed
 
