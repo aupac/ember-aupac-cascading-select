@@ -1,5 +1,7 @@
 # ember-aupac-cascading-select
 
+[![NPM package](https://img.shields.io/npm/v/ember-aupac-cascading-select.svg)](https://www.npmjs.com/package/ember-aupac-cascading-select) [![Build Status](https://img.shields.io/travis/aupac/ember-aupac-cascading-select.svg)](https://travis-ci.org/aupac/ember-aupac-cascading-select) [![Ember Observer Score](http://emberobserver.com/badges/ember-aupac-cascading-select.svg)](http://emberobserver.com/addons/ember-aupac-cascading-select)
+
 Flexible Cascading/Dependent Select for Ember.
 
 ![alt tag](https://github.com/aupac/ember-aupac-cascading-select/blob/master/example.jpg)
